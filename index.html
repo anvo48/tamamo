@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="utf-8">
+    <title>Onmyoji Soul Set Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <div class="container mt-3">
+      <form>
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="souls">Souls</label>
+            <textarea id="souls" class="form-control" rows="10" placeholder="Slot #1&#10;phathe 3atkp 7cdmg 13crit&#10;chamnu 3atkp 3spd 16crit&#10;&#10;Slot #2&#10;phathe 55atkp 2atkp 14cdmg 8crit"></textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="config">Config</label>
+            <textarea id="config" class="form-control" rows="10" placeholder="Tamamo&#10;* bonus4 phathe&#10;* bonus2 chamnu phathe tamvi&#10;* min-crit 89&#10;* min-total-dmg 22600&#10;* min-spd 15&#10;* max-spd 18&#10;&#10;Onikiri&#10;* bonus4 chamnu"></textarea>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group col">
+            <button class="btn btn-primary" onclick="return run();">Generate Soul Sets</button>
+            <small class="text-muted">Press F12 and see result on Console tab.</small>
+          </div>
+        </div>
+
+      </form>
+    </div>
+    <script src="g.js"></script>
+    <script>
+      function run() {
+        try {
+          const souls  = document.getElementById('souls').value;
+          const config = document.getElementById('config').value;
+          const result = generateSets(souls, config);
+          result.forEach(function(value) {
+            if (typeof value === 'string')
+              console.log(value);
+            else if (value.length) {
+              for (const line of value)
+                console.log(line);
+            } else {
+              const line = Object.keys(value).map(k => `${k}: ${value[k]}`).join(', ');
+              console.log(line);
+            }
+          });
+        } catch (error) {
+          console.log('Error:', error.message);
+        }
+        return false;
+      }
+    </script>
+  </body>
+
+</html>
